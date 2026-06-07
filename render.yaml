@@ -1,0 +1,56 @@
+services:
+  - type: web
+    name: telegram-premium-bot
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: BOT_USERNAME
+        sync: false
+      - key: ADMIN_IDS
+        value: "6106058051"
+      - key: SUPER_ADMIN_ID
+        value: "6106058051"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: premium-bot-db
+          property: connectionString
+      - key: REDIS_URL
+        sync: false
+      - key: USE_REDIS
+        value: "false"
+      - key: WEBHOOK_MODE
+        value: "true"
+      - key: WEBHOOK_HOST
+        sync: false
+      - key: WEBHOOK_PATH
+        value: "/webhook"
+      - key: WEBHOOK_PORT
+        value: "8080"
+      - key: UPI_ID
+        sync: false
+      - key: UPI_NAME
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ENCRYPTION_KEY
+        sync: false
+      - key: REFERRAL_BONUS
+        value: "10.0"
+      - key: MIN_DEPOSIT
+        value: "100.0"
+      - key: MAX_DEPOSIT
+        value: "50000.0"
+      - key: LOG_LEVEL
+        value: "INFO"
+      - key: DEBUG
+        value: "false"
+
+databases:
+  - name: premium-bot-db
+    plan: starter
+    databaseName: premium_bot
+    user: botuser
